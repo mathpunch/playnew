@@ -1,8 +1,7 @@
 const ipifyAPI = "https://api.ipify.org?format=json";
 
-
-const webhookURL = "https://discord.com/api/webhooks/1341696340287291394/GFziixy6Ett74nkoaIpbMjWvpD_AXfWfjdTufGdeR1scNM090nDsoI9loUiDEYa-DAvq";
-
+// Use the environment variable for the webhook URL
+const webhookURL = process.env.DISCORD_WEBHOOK_URL;
 
 async function getIP() {
     try {
@@ -21,5 +20,39 @@ async function sendToDiscord(ip) {
         return;
     }
 
+    if (!webhookURL) {
+        console.error("Discord webhook URL is not set.");
+        return;
+    }
+
     const payload = {
         content: `IP Address: ${ip}`
+    };
+
+    try {
+        const response = await fetch(webhookURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            console.log("IP sent to Discord successfully!");
+        } else {
+            console.error("Error sending IP to Discord:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+async function main() {
+    const ip = await getIP();
+    if (ip) {
+        await sendToDiscord(ip);
+    }
+}
+
+main();
