@@ -1,2 +1,2 @@
-# Discord-IP-Grabber
-By accessing a webpage it will grab your IP and send it to a discord webhook of your choosing
+# mathpunch IP Puller
+By Entering The mathpunch IP Puller Your IP Will Be Pulled And Sent To The mathpunch IP Puller Discord Server And Possibly Seen By Other Members in The Discord Server
